@@ -78,7 +78,6 @@ pub fn input_generator(input: &str) -> Vec<Directory> {
             let name = parts.next().unwrap().to_owned();
             //println!("file {} [{}] in [{}]", size, name, filesystem[current_dir].name);
 
-
             filesystem[current_dir]
                 .children
                 .push(DirNode::File { name, size });
@@ -162,7 +161,8 @@ $ ls
         let output = input_generator(example);
 
         let expected = vec![
-            Directory { // 0
+            Directory {
+                // 0
                 parent: 0,
                 name: "/".to_owned(),
                 size: 48381165,
@@ -183,7 +183,8 @@ $ ls
                     ),
                 ],
             },
-            Directory { // 1
+            Directory {
+                // 1
                 parent: 0,
                 name: "a".to_owned(),
                 size: 94853,
@@ -205,7 +206,8 @@ $ ls
                     },
                 ],
             },
-            Directory { // 2
+            Directory {
+                // 2
                 parent: 0,
                 name: "d".to_owned(),
                 size: 24933642,
@@ -228,16 +230,15 @@ $ ls
                     },
                 ],
             },
-            Directory { // 3
+            Directory {
+                // 3
                 parent: 1,
                 name: "e".to_owned(),
                 size: 584,
-                children: vec![
-                    DirNode::File {
-                        name: "i".to_owned(),
-                        size: 584,
-                    },
-                ],
+                children: vec![DirNode::File {
+                    name: "i".to_owned(),
+                    size: 584,
+                }],
             },
         ];
 
