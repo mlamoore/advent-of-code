@@ -106,7 +106,6 @@ pub fn find_shortest(
     }
 }
 
-
 fn can_visit(x: i32, y: i32, old_height: u8, map: &[Vec<u8>], visited: &[Vec<bool>]) -> bool {
     if x < 0 || x >= map[0].len() as i32 || y < 0 || y >= map.len() as i32 {
         false
