@@ -39,7 +39,7 @@ pub fn solve_part1(input: &Input) -> usize {
 pub fn solve_part2(input: &Input) -> usize {
     let mut packets = vec!["[[2]]", "[[6]]"];
 
-    for (index, (left, right)) in input.iter().enumerate() {
+    for (_index, (left, right)) in input.iter().enumerate() {
         packets.push(left);
         packets.push(right);
     }
@@ -50,7 +50,7 @@ pub fn solve_part2(input: &Input) -> usize {
 
     for (i, packet) in packets.iter().enumerate() {
         if *packet == "[[2]]" || *packet == "[[6]]" {
-            key *= (i + 1);
+            key *= i + 1;
         }
     }
 
@@ -137,16 +137,5 @@ pub fn compare_p1(left: &str, right: &str, pos: usize) -> std::cmp::Ordering {
         );
 
         panic!();
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_part1() {
-        let input = input_generator("not_needed").unwrap();
-        assert_eq!(solve_part1(&input), 13140);
     }
 }

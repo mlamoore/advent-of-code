@@ -133,15 +133,3 @@ fn find_best(visited: &[Vec<bool>], tent_distance: &[Vec<i64>]) -> (i32, i32) {
 
     (bx as i32, by as i32)
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_part1() {
-        let input = input_generator("not_needed");
-
-        assert_eq!(solve_part1(&input), 0);
-    }
-}
