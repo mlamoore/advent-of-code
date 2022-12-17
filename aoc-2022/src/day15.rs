@@ -60,11 +60,11 @@ pub fn solve_part1(input: &[(i32, i32, i32, i32)]) -> usize {
 }
 
 #[aoc(day15, part2)]
-pub fn solve_part2(input: &[(i32, i32, i32, i32)]) -> i32 {
+pub fn solve_part2(input: &[(i32, i32, i32, i32)]) -> usize {
     big_search(input, 4_000_000)
 }
 
-pub fn big_search(input: &[(i32, i32, i32, i32)], limit: i32) -> i32 {
+pub fn big_search(input: &[(i32, i32, i32, i32)], limit: i32) -> usize {
     for y in 0..=limit {
         let mut x = 0;
 
@@ -85,29 +85,8 @@ pub fn big_search(input: &[(i32, i32, i32, i32)], limit: i32) -> i32 {
                 }
             }
 
-            println!("Found spot at ({}, {})", x, y);
-            for &(sx, sy, bx, by) in input.iter() {
-                let db = (sx - bx).abs() + (sy - by).abs();
-                let dh = (sx - x).abs() + (sy - y).abs();
-
-                println!(
-                    "    Sensor ({}, {}) has distance {}, we're {} at {}",
-                    sx,
-                    sy,
-                    db,
-                    if dh < db {
-                        "CLOSER"
-                    } else if dh == db {
-                        "EQUAL"
-                    } else {
-                        "farther"
-                    },
-                    dh
-                );
-            }
-
             // If we didn't hit a continue above, we found it!
-            return x * 4_000_000 + y;
+            return (x as usize) * 4_000_000 + y as usize;
         }
     }
 
