@@ -109,40 +109,50 @@ pub fn solve_part2_orig(input: &[bool]) -> usize {
     next_height + repeats * period_height_gain
 }
 
-// (x,y) coords of all rock types, relative to bottom left (up is +y)
-const ROCKS: [[(usize, usize); 5]; 5] = [
-    [(0, 0), (1, 0), (2, 0), (3, 0), (3, 0)], // duplicates are allowed
-    [(1, 0), (0, 1), (1, 1), (2, 1), (1, 2)],
-    [(0, 0), (1, 0), (2, 0), (2, 1), (2, 2)],
-    [(0, 0), (0, 1), (0, 2), (0, 3), (0, 3)],
-    [(0, 0), (0, 1), (1, 0), (1, 1), (1, 1)],
+// Bit masks of all rock types
+// bottom is index 0, left is bit 0
+// That is mirrored in x and y relative to problem description
+const ROCKS: [&[u8]; 5] = [
+    &[0b1111],
+    &[0b010, 0b111, 0b010],
+    &[0b111, 0b100, 0b100],
+    &[0b1, 0b1, 0b1, 0b1],
+    &[0b11, 0b11],
 ];
 
 // (x, y) bounds of all rock types, used for colliding with walls
 const ROCK_SIZES: [(usize, usize); 5] = [(4, 1), (3, 3), (3, 3), (1, 4), (2, 2)];
 
-pub fn tower_height(map: &[[bool; 7]]) -> usize {
+pub fn tower_height(map: &[u8]) -> usize {
     map.iter()
         .enumerate()
         .rev()
-        .find(|(_i, row)| row.iter().any(|space| *space))
+        .find(|(_i, row)| **row != 0)
         .map_or(0, |(i, _row)| i + 1)
 }
 
-pub fn piece_collides(map: &[[bool; 7]], piece: usize, x: usize, y: usize) -> bool {
-    ROCKS[piece].iter().any(|(dx, dy)| map[y + dy][x + dx])
+pub fn piece_collides(map: &[u8], rock_type: usize, x: usize, y: usize) -> bool {
+    (0..ROCK_SIZES[rock_type].1)
+        .into_iter()
+        .any(|dy| map[y + dy] & ROCKS[rock_type][dy] << x != 0)
 }
 
-pub fn pad_map_height(map: &mut Vec<[bool; 7]>, new_height: usize) {
+pub fn place_piece(map: &mut [u8], rock_type: usize, x: usize, y: usize) {
+    for dy in 0..ROCK_SIZES[rock_type].1 {
+        map[y + dy] |= ROCKS[rock_type][dy] << x;
+    }
+}
+
+pub fn pad_map_height(map: &mut Vec<u8>, new_height: usize) {
     for _i in map.len()..new_height {
-        map.push([false; 7]);
+        map.push(0);
     }
 }
 
 // Drops one rock, returns resting place of rock
 pub fn drop_rock(
     rock_type: usize,
-    map: &mut Vec<[bool; 7]>,
+    map: &mut Vec<u8>,
     wind_patterns: &[bool],
     wind_dir: &mut usize,
 ) -> (usize, usize) {
@@ -178,9 +188,7 @@ pub fn drop_rock(
         }
     }
 
-    for (dx, dy) in ROCKS[rock_type] {
-        map[y + dy][x + dx] = true;
-    }
+    place_piece(map, rock_type, x, y);
 
     (x, y)
 }
