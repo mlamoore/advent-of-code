@@ -41,7 +41,7 @@ pub fn solve_part1(input: &HashSet<(i64, i64)>) -> usize {
     //println!("Initial state" );
     //debug_visualize( &elves, -3, 11, -3, 11 );
 
-    for round in 0..10 {
+    for _round in 0..10 {
         elves = move_all(&elves, first_dir);
         first_dir += 1;
         first_dir %= 4;
@@ -143,12 +143,13 @@ mod tests {
     #[test]
     fn test_part1() {
         let input = input_generator(
-            ".....
-..##.
-.#...
-....#
-.....
-..#..",
+            "....#..
+..###.#
+#...#.#
+.#...##
+#.###..
+##.#.##
+.#..#..",
         );
 
         assert_eq!(solve_part1(&input), 110);

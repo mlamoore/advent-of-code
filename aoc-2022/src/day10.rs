@@ -12,7 +12,7 @@ pub fn input_generator(input: &str) -> Result<Vec<CpuInst>, aoc_parse::ParseErro
     let mut input = input.to_owned();
     input.push('\n');
 
-    let p = parser!(lines({"noop" => CpuInst::NoOp, "addx " (x: i32) => CpuInst::AddX(x)}));
+    let p = parser!(lines({"noop" => CpuInst::NoOp, "addx " n: i32 => CpuInst::AddX(n)}));
 
     p.parse(&input)
 }

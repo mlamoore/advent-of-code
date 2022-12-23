@@ -26,12 +26,13 @@ dependencies = [
 
 [[package]]
 name = "aoc-parse"
-version = "0.1.9"
+version = "0.2.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "16265c945be93186fe4633470265f2a1c7b2d754ebe6e374744b62e3eac32b5f"
+checksum = "da1b167076ff6eb156643bca87c4895ad4c5a178e3b16cb57270107aaf54a2b2"
 dependencies = [
  "lazy_static",
  "num-bigint",
+ "num-traits",
  "regex",
  "thiserror",
  "tuple_utils",

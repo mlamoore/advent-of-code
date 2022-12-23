@@ -25,16 +25,16 @@ pub fn input_generator(input: &str) -> Vec<Monkey> {
 
     let op = parser!({
         "* old" => Operation::Square,
-        "* " (x: usize) => Operation::Multiply(x),
-        "+ " (x: usize) => Operation::Add(x),});
+        "* " n: usize => Operation::Multiply(n),
+        "+ " n: usize => Operation::Add(n),});
 
     let p = parser!(sections(
-        (index: line("Monkey " usize ":"))
-        (starting_items: line("  Starting items: " repeat_sep(usize, ", ")))
-        (inspection: line("  Operation: new = old " op))
-        (test: line("  Test: divisible by " usize))
-        (next_true: line("    If true: throw to monkey " usize))
-        (next_false: line("    If false: throw to monkey " usize))
+        index: line("Monkey " usize ":")
+        starting_items: line("  Starting items: " repeat_sep(usize, ", "))
+        inspection: line("  Operation: new = old " op)
+        test: line("  Test: divisible by " usize)
+        next_true: line("    If true: throw to monkey " usize)
+        next_false: line("    If false: throw to monkey " usize)
         => Monkey { index, starting_items, inspection, test, next_true, next_false, }));
 
     p.parse(&input).unwrap()
